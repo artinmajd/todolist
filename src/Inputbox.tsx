@@ -1,13 +1,15 @@
-import React, { ReactElement, useCallback, useState } from "react";
+import React, { ReactElement, useCallback, useState, useContext } from "react";
+import StoreContext from "./store";
 
-function Inputbox({ addTask }: { addTask: (arg0: string) => void }): ReactElement {
+function Inputbox(): ReactElement {
+  const store = useContext(StoreContext);
   const [textValue, setTextValue] = useState("");
   const handleButtonAddClick = useCallback(() => {
     if (textValue !== "") {
-      addTask(textValue);
+      store.addTask(textValue);
       setTextValue("");
     }
-  }, [textValue, addTask]);
+  }, [store, textValue]);
   const handleInputChange = useCallback((event) => {
     setTextValue(event.target.value);
   }, []);

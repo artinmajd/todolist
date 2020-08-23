@@ -1,24 +1,19 @@
-import React, { ReactElement } from "react";
-import { itemType } from "./App";
+import React, { ReactElement, useContext } from "react";
+import StoreContext from "./store";
+import { observer } from "mobx-react-lite";
 
-function List({
-  tasks,
-  toggleDone,
-  deleteItem,
-}: {
-  tasks: itemType[];
-  toggleDone: (ID: number) => void;
-  deleteItem: (ID: number) => void;
-}): ReactElement {
+function List(): ReactElement {
+  console.log("list rendered");
+  const store = useContext(StoreContext);
   return (
     <div>
       <ul>
-        {tasks.map((x) => (
-          <div>
+        {store.filteredItems.map((x) => (
+          <div key={x.ID}>
             <li>
-              <input type="checkbox" onChange={() => toggleDone(x.ID)} checked={x.isDone} />
+              <input type="checkbox" onChange={() => store.toggleDone(x.ID)} checked={x.isDone} />
               {x.name}-{x.isDone === false ? "Undone" : "Done"}
-              <button onClick={() => deleteItem(x.ID)}>remove</button>
+              <button onClick={() => store.deleteItem(x.ID)}>remove</button>
             </li>
           </div>
         ))}
@@ -27,4 +22,4 @@ function List({
   );
 }
 
-export default List;
+export default observer(List);

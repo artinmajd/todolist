@@ -1,27 +1,26 @@
-import React, { ReactElement, useCallback } from "react";
-import { FilterType } from "./App";
+import React, { ReactElement, useCallback, useContext } from "react";
+import StoreContext from "./store";
+import { observer } from "mobx-react-lite";
 
-interface Props {
-  handleFilterCallback: (arg0: FilterType) => void;
-  selectedFilter: FilterType;
-}
-
-export default function Filters({ handleFilterCallback, selectedFilter }: Props): ReactElement {
-  const handleAllcallback = useCallback(() => handleFilterCallback("All"), [handleFilterCallback]);
-  const handleDonecallback = useCallback(() => handleFilterCallback("Done"), [handleFilterCallback]);
-  const handleUndonecallback = useCallback(() => handleFilterCallback("Undone"), [handleFilterCallback]);
+function Filters(): ReactElement {
+  const store = useContext(StoreContext);
+  const handleAllcallback = useCallback(() => store.changeFilter("All"), [store]);
+  const handleDonecallback = useCallback(() => store.changeFilter("Done"), [store]);
+  const handleUndonecallback = useCallback(() => store.changeFilter("Undone"), [store]);
 
   return (
     <div>
-      <button onClick={handleAllcallback} disabled={selectedFilter === "All"}>
+      <button onClick={handleAllcallback} disabled={store.filter === "All"}>
         All
       </button>
-      <button onClick={handleDonecallback} disabled={selectedFilter === "Done"}>
+      <button onClick={handleDonecallback} disabled={store.filter === "Done"}>
         Done
       </button>
-      <button onClick={handleUndonecallback} disabled={selectedFilter === "Undone"}>
+      <button onClick={handleUndonecallback} disabled={store.filter === "Undone"}>
         Undone
       </button>
     </div>
   );
 }
+
+export default observer(Filters);
