@@ -38,10 +38,5 @@
   },
   "devDependencies": {
     "prettier": "^2.0.5"
-  },
-  "prettier":{
-    "folders": [],
-    "settings": {},
-    "editor.formatOnSave": true
   }
 }
